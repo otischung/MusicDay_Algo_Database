@@ -1,6 +1,7 @@
 import eyed3
 import glob
 import os
+import sys
 
 from tqdm import tqdm
 
@@ -31,4 +32,6 @@ with open(label_filename, "w+") as f:
                     with open(cover_path, "wb") as fcover:
                         fcover.write(cover_bin_data)
                     write_cover = False
+            if title is None or artist is None or album is None:
+                print(f"\nError, the file {music} has no information.\n", file=sys.stderr)
             f.write(f'"{title}","{artist}","{album}","{music}","{cover_path}"\n')
