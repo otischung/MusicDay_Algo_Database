@@ -14,8 +14,9 @@ for i in folder_list:
     tmp.sort()
     music_list.append(tmp)
 
+cnt = 0
 with open(label_filename, "w+") as f:
-    f.write('Title,Artist,Album,File_Path,Cover_Path,First_Comment,Lowest_Pitch,First_Quartile_Pitch,Medium_Pitch,Third_Quartile_Pitch,Highest_Pitch\n')
+    f.write('ID,Title,Artist,Album,File_Path,Cover_Path,First_Comment,Lowest_Pitch,First_Quartile_Pitch,Medium_Pitch,Third_Quartile_Pitch,Highest_Pitch\n')
     for folder in tqdm(music_list):
         write_cover = True
         for music in folder:
@@ -38,4 +39,5 @@ with open(label_filename, "w+") as f:
                 comment = None
             else:
                 comment = metadata.tag.comments[0].text
-            f.write(f'"{title}","{artist}","{album}","{music}","{cover_path}","{comment}"\n')
+            f.write(f'{cnt},"{title}","{artist}","{album}","{music}","{cover_path}","{comment}"\n')
+            cnt += 1
