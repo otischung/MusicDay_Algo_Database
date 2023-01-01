@@ -1,2 +1,4 @@
 eyeD3
+pandas
+pysqlite3
 tqdm
