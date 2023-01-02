@@ -1,4 +1,5 @@
 eyeD3
 pandas
 pysqlite3
+spleeter
 tqdm
