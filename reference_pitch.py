@@ -1,6 +1,8 @@
 """
 Provides some librosa functions
 """
+import sys
+
 import librosa
 import numpy as np
 
@@ -41,6 +43,10 @@ def ref_pitch(src: str) -> list:
             else:
                 i -= 1
 
+    if len(appear) == 0:
+        print(f"Error, the music {src} has zero note.", file=sys.stderr)
+        return [0, 0, 0, 0, 0]
+
     # This will take few times.
     appear.sort()
 
@@ -50,4 +56,9 @@ def ref_pitch(src: str) -> list:
     # print("average low", librosa.midi_to_note(appear[(int)(len(appear) / 4)]))
     # print("low", librosa.midi_to_note(appear[(int)(len(appear) / 100)]))
     # print("high", librosa.midi_to_note(appear[(int)(98 * len(appear) / 100)]))
-    return [appear[int(len(appear) / 100)], appear[int(len(appear) / 4)], appear[int(len(appear) / 2)], appear[int(3 * len(appear) / 4)], appear[int(98 * len(appear) / 100)]]
+    low = int(appear[int(len(appear) / 100)])
+    avg_low = int(appear[int(len(appear) / 4)])
+    avg = int(appear[int(len(appear) / 2)])
+    avg_high = int(appear[int(3 * len(appear) / 4)])
+    high = int(appear[int(98 * len(appear) / 100)])
+    return [low, avg_low, avg, avg_high, high]

@@ -41,7 +41,14 @@ with open(label_filename, "w+") as f:
 
             vocal_path = os.path.join(os.path.splitext(music)[0], "vocals.wav")
             # Reference Pitch List
-            ref = reference_pitch.ref_pitch(vocal_path)
+            try:
+                ref = reference_pitch.ref_pitch(vocal_path)
+            except IndexError:
+                print(f"Index Error: {music}.", file=sys.stderr)
+                ref = [0, 0, 0, 0, 0]
+            except Exception as e:
+                print(f"{e}: {music}.", file=sys.stderr)
+                ref = [0, 0, 0, 0, 0]
 
             # Get Metadata
             metadata = eyed3.load(music)
