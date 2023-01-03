@@ -4,7 +4,9 @@ import recommendation_system
 
 
 if __name__ == "__main__":
-    user_vocal_sound_path = "/home/otischung/Desktop/untitled.wav"
+    # Configure the user's vocal sound path
+    user_vocal_sound_path = "/path/to/user/vocal/sound.wav"  # Or another audio file format.
+
     # Get user's five reference pitches.
     ref = reference_pitch.ref_pitch(user_vocal_sound_path, fmin="C2", fmax="C6")
     print("Your five reference pitches are:")
