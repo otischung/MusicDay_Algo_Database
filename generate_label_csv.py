@@ -42,7 +42,7 @@ with open(label_filename, "w+") as f:
             vocal_path = os.path.join(os.path.splitext(music)[0], "vocals.wav")
             # Reference Pitch List
             try:
-                ref = reference_pitch.ref_pitch(vocal_path)
+                ref = reference_pitch.ref_pitch(vocal_path, fmin="G2", fmax="C6")
             except IndexError:
                 print(f"Index Error: {music}.", file=sys.stderr)
                 ref = [0, 0, 0, 0, 0]
