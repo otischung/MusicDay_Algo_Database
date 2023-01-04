@@ -90,6 +90,7 @@ def ref_pitch(src: str, fmin: int | str = "G2", fmax: int | str = "C6", noise_ga
     midi_note = np.around(librosa.hz_to_midi(f0))
     i = len(midi_note) - 1
 
+    histogram = [0] * 128
     while i >= 0:
         if midi_note[i] != 'nan':
             is_a_note = True
@@ -99,6 +100,7 @@ def ref_pitch(src: str, fmin: int | str = "G2", fmax: int | str = "C6", noise_ga
                     break
             if is_a_note:
                 appear.append(midi_note[i])
+                histogram[int(midi_note[i])] += 1
                 i -= num_cont_frame
             else:
                 i -= 1
@@ -108,7 +110,13 @@ def ref_pitch(src: str, fmin: int | str = "G2", fmax: int | str = "C6", noise_ga
         return [0, 0, 0, 0, 0]
 
     # This will take few times.
-    appear.sort()
+    # appear.sort()
+
+    # Unstable counting sort
+    appear_sort = []
+    for i in range(128):
+        for j in range(histogram[i]):
+            appear_sort.append(i)
 
     # 5 index
     # print("average", librosa.midi_to_note(appear[(int)(len(appear) / 2)]))
@@ -116,10 +124,10 @@ def ref_pitch(src: str, fmin: int | str = "G2", fmax: int | str = "C6", noise_ga
     # print("average low", librosa.midi_to_note(appear[(int)(len(appear) / 4)]))
     # print("low", librosa.midi_to_note(appear[(int)(len(appear) / 100)]))
     # print("high", librosa.midi_to_note(appear[(int)(98 * len(appear) / 100)]))
-    low = int(appear[int(len(appear) / 100)])
-    avg_low = int(appear[int(len(appear) / 4)])
-    avg = int(appear[int(len(appear) / 2)])
-    avg_high = int(appear[int(3 * len(appear) / 4)])
-    high = int(appear[int(98 * len(appear) / 100)])
+    low = int(appear_sort[int(len(appear_sort) / 100)])
+    avg_low = int(appear_sort[int(len(appear_sort) / 4)])
+    avg = int(appear_sort[int(len(appear_sort) / 2)])
+    avg_high = int(appear_sort[int(3 * len(appear_sort) / 4)])
+    high = int(appear_sort[int(98 * len(appear_sort) / 100)])
     # high = int(appear[int(len(appear) - 2)])
     return [low, avg_low, avg, avg_high, high]
