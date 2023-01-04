@@ -1,4 +1,4 @@
-def judge(tester_lowest: int, tester_highest: int, song_lowest: int, song_highest: int) -> bool:
+def judge(tester_lowest: int, tester_highest: int, song_lowest: int, song_highest: int) -> list:
     """
     To determine the lowest and highest pitches of the given song is beyond that of the tester.
 
@@ -18,13 +18,13 @@ def judge(tester_lowest: int, tester_highest: int, song_lowest: int, song_highes
 
     Returns
     -------
-    out: bool
+    out: list
         The function returns True if the tester can handle the song. Otherwise, return False.
+        The list represents as [low pass, high pass].
     """
-    if song_lowest < tester_lowest or song_highest > tester_highest:
-        return False  # 判斷歌曲最高/低音是否超過Tester的音域，是return 0,or return 1
-    else:
-        return True
+    low = False if song_lowest < tester_lowest else True
+    high = False if song_highest > tester_highest else True
+    return [low, high]
 
 
 def distance(tester: list, song: list) -> int:
